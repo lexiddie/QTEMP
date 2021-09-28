@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "Explore";
+}
+
+<div class="page-content">
+    <div class="page-header">
+        <div>
+            <img src="@Url.Content("~/assets/logo/abac.png")" alt=""/>
+            <label>AU Body Temperature Recording System</label>
+        </div>
+        <div>
+            <button class="button-segment active" type="submit">
+                <img src="@Url.Content("~/assets/icon/smile.png")" alt=""/>
+                <span>Normal Temperature</span>
+            </button>
+            <button class="button-segment" type="submit">
+                <img src="@Url.Content("~/assets/icon/mask.png")" alt=""/>
+                <span>Precaution Temperature</span>
+            </button>
+        </div>
+    </div>
+    @* <input id="input-qr-code" onblur="this.focus()" autofocus/> *@
+    <input id="input-qr-code"/>
+    <div class="page-body">
+        <div id="record-partial"></div>
+    </div>
+    <button id="button-logout" type="submit">
+        <img src="@Url.Content("~/assets/icon/logout.png")" alt=""/>
+        <span>Logout</span>
+    </button>
+</div>
+
+<script>
+    $(document).ready(function() {
+        const qrCodeInput = $('#input-qr-code');
+        qrCodeInput.focus();
+        const reload = $('div[id$=main-reloading]');
+        const recordPartial = $('#record-partial');
+        const handleLogout = $('#button-logout');
+        const page = $('.main-page');
+        const login = $('.main-login');
+        reload.hide();
+        let statusInput = 'N';
+        let previous = '';
+        let handleLoad;
+        
+        $('.page-content').on('click',function() {
+            console.log('focus is fire');
+            qrCodeInput.focus();
+        });
+        
+        qrCodeInput.keydown(function (event) {
+            if (event.which === 13 && qrCodeInput.val().trim().length >= 6) {
+                console.log(`This is previous ${previous} & new ${qrCodeInput.val().trim()}`);
+                if (qrCodeInput.val().trim() !== previous) {
+                    clearTimeout(handleLoad);
+                    previous = qrCodeInput.val().trim();
+                    console.log(qrCodeInput.val().trim());
+                    loadThermoCheck(qrCodeInput.val().trim(), statusInput);
+                    handleLoad = setTimeout(function() {
+                        console.log('Running 1');
+                        loadPendingInformation();
+                    }, 30000);
+                }
+                event.preventDefault();
+                qrCodeInput.val('');
+            }
+        });
+                
+        loadPendingInformation();
+        
+        function loadThermoCheck(qrCodeString, statusString) {
+            //reload.show();
+            const url = `@Url.Action("ThermoCheck", "Record")?qrCode=${qrCodeString}&status=${statusString}`;
+            console.log(url);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                cache: true
+            }).done(function(res) {
+                recordPartial.empty().append(res);
+                reload.hide();
+            }).fail(function(a, b, c) {
+                console.log('It is error');
+                console.log(c);
+                loadErrorPage();
+            });
+        }
+        
+        function loadPendingInformation() {
+            previous = '';
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("PendingInformation", "Record")',
+                cache: true
+            }).done(function(res) {
+                recordPartial.empty().append(res);
+                reload.hide();
+            }).fail(function(a, b, c) {
+                console.log('It is error');
+                console.log(c);
+                loadErrorPage();
+            });
+        }
+        
+        $('.button-segment').on('click', function() {
+            $('.button-segment').each(function(index, object) {
+                if (object.className.indexOf('active') !== -1) {
+                    object.className = object.className.replace(' active', '');
+                } 
+            });
+            $(this).addClass('active');
+            const currentIndex = $(this).index();
+            // N = Normal, P = Precaution
+            currentIndex === 0 ? statusInput = 'N' : statusInput = 'P';
+            console.log(statusInput);
+            loadPendingInformation();
+        });
+        
+        handleLogout.click(function() {
+            bootbox.confirm('Are you sure you want to logout?', function(res){
+                if (res) {
+                    qrCodeInput.blur();
+                    previous = '';
+                    clearTimeout(handleLoad);
+                    console.log('Working');
+                    $.getJSON('@Url.Action("Logout", "Home")', function(res) {
+                        console.log(res['isSuccess']);
+                        $.get('@Url.Action("Index", "Login")').done(function(result) {
+                            console.log('Login view');
+                            page.hide();
+                            page.empty();
+                            login.show();
+                            login.html(result);
+                        }).fail(function(a, b, c) {
+                            console.log('It is error');
+                            console.log(c);
+                            loadErrorPage();
+                        });
+                    });
+                } else {
+                    qrCodeInput.focus();
+                }
+            }).find('.modal-content').css({
+               'margin-top': function (){
+                   const w = $( window ).height();
+                   const b = $(".modal-dialog").height();
+                   const h = (w - b) / 2;
+                   return h + "px";
+               }
+            });
+        });
+        
+        function loadErrorPage() {
+            const url = '@Url.Action("ErrorPage", "Record")';
+            $.ajax({
+                type: 'GET',
+                url: url,
+                cache: true
+            }).done(function(res) {
+                recordPartial.empty().append(res);
+                reload.hide();
+            })
+        }
+    });
+</script>

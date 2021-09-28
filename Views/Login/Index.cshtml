@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="page-login">
+    <img src="@Url.Content("~/assets/photo/background.jpg")" alt=""/>
+    <div>
+        <div>
+            <label>qTEMP</label>
+            <label>Body Temperature Recording System</label>
+            <label>PINCODE</label>
+            <input id="pin-code" type="password" value="lexroot" class="main-textfield"/>
+            <button id="button-login" class="main-btn main-btn-second" type="submit">
+                <span>Login</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            const reload = $('div[id$=main-reloading]');
+            const page = $('.main-page');
+            const login = $('.main-login');
+
+            const handleLogin = $('#button-login');
+            const pinCodeTextField = $('#pin-code');
+            
+            // $(document).on('keypress',function(event) {
+            //     if(event.which === 13) {
+            //         CheckLogin();
+            //     }
+            // });
+            
+            pinCodeTextField.keypress(function (event) {
+                const key = event.which;
+                if(key === 13) {
+                    CheckLogin();
+                }
+            }); 
+            
+            handleLogin.click(function() {
+                CheckLogin();
+            });
+            
+            function CheckLogin() {
+                reload.show();
+                if (pinCodeTextField !== '') {
+                    $.ajax({
+                        type: 'POST',
+                        url: `@Url.Action("VerifyLogin", "Home")?pinCode=${pinCodeTextField.val().trimEnd()}`,
+                        cache: true
+                    }).done(function(res) {
+                        console.log(res);
+                        if (!res['isSuccess']) {
+                            reload.hide();
+                            bootbox.alert("The pincode is incorrect").find('.modal-content').css({
+                                'margin-top': function (){
+                                    const w = $( window ).height();
+                                    const b = $(".modal-dialog").height();
+                                    const h = (w - b) / 2;
+                                    return h + "px";
+                                }
+                            });
+                        } else {
+                            login.hide();
+                            login.empty();
+                            page.show();
+                            $.get('@Url.Action("Index", "Record")').done(function(result) {
+                                page.empty().html(result);
+                            }).fail(function(a, b, c) {
+                                console.log('It is error');
+                                console.log(c);
+                                loadErrorPage();
+                            });
+                        }
+                    }).fail(function(a, b, c) {
+                        console.log('It is error');
+                        console.log(c);
+                        loadErrorPage();
+                    });
+                } else {
+                    reload.hide();
+                    bootbox.alert("Username or Password must not be empty").find('.modal-content').css({
+                        'margin-top': function (){
+                            const w = $( window ).height();
+                            const b = $(".modal-dialog").height();
+                            const h = (w - b) / 2;
+                            return h + "px";
+                        }
+                    });
+                }
+            }
+            
+            function loadErrorPage() {
+                const url = '@Url.Action("ErrorPage", "Record")';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    cache: true
+                }).done(function(res) {
+                    $('#main-page').empty().append(res);
+                    reload.hide();
+                })
+            }
+        });
+    </script>
+</div>

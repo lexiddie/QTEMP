@@ -1,0 +1,32 @@
+.login-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 450px;
+    overflow: hidden;
+    -webkit-transform: translate(-55%, -50%);
+    transform: translate(-55%, -50%);
+}
+
+.brd-top {
+    &--primary {
+       border-top: 4px solid $primary; 
+    }
+}
+
+
+.logo {
+    padding-top: 20px;
+    padding-bottom: 15px;
+
+    &__img {
+        height: 26px;
+        margin-right: 10px;
+        margin-bottom: 2px;
+    }
+
+    &__title {
+        color: $black_50;
+        line-height: 2;
+    }   
+}

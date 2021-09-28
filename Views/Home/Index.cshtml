@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div>
+    <script>
+        $(document).ready(function() {
+            const reload = $('div[id$=main-reloading]');
+            const page = $('.main-page');
+            const login = $('.main-login');
+            let isLogin;
+            let urlDirectory;
+            
+            $.getJSON('@Url.Action("CheckLogin", "Home")', function(res) {
+                console.log(res);
+                isLogin = res['isLogin'];
+                console.log(`Check Login ${isLogin}`);
+                isLogin ? urlDirectory = '@Url.Action("Index", "Record")' : urlDirectory = '@Url.Action("Index", "Login")';
+                console.log(`Action link ${urlDirectory}`);
+                
+                $.get(urlDirectory).done(function(result) {
+                    if (isLogin) {
+                        reload.show();
+                        console.log('Dashboard view');
+                        login.hide();
+                        login.empty();
+                        page.show();
+                        page.html(result);
+                    } else {
+                        console.log('Login view');
+                        page.hide();
+                        page.empty();
+                        login.show(); 
+                        login.html(result);
+                    }
+                }).fail(function(a, b, c) {
+                    console.log('It is error');
+                    console.log(c);
+                    loadErrorPage();
+                });
+            });
+
+            function loadErrorPage() {
+                const url = '@Url.Action("ErrorPage", "Record")';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    cache: true
+                }).done(function(res) {
+                    $('#main-page').empty().append(res);
+                    reload.hide();
+                })
+            }
+        });                                                                                       
+    </script>
+</div>

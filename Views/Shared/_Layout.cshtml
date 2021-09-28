@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <partial name="_CSSPartial"></partial>
+</head>
+<body>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+    <script>if (window.module) module = window.module;</script>
+    <div class="main-reloading" id="main-reloading" runat="server"></div>
+    <div class="main-login" id="main-login"></div>
+    <div class="main-page" id="main-page" style="display: none;">
+         @RenderBody()
+    </div>
+
+    <partial name="_JSPartial"></partial>
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Modals", required: false)
+    <script>
+        $(document).ready(function() {
+            const reload = $('div[id$=main-reloading]');
+            reload.hide();
+            console.log('This is working');
+        });
+    </script>
+</body>
+</html>

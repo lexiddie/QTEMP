@@ -1,0 +1,56 @@
+/*------------------------------------
+    Class lookup specific styles
+------------------------------------*/
+
+.class-lookup-head {
+    margin-bottom: 10px;
+    color: $white;
+    background-color: $primary;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.class-lookup-title {
+    display: block;
+    width: 100%;
+    color: #555555;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+
+    &-sub {
+        color: $gray-dark;
+        font-weight: 500;
+    }
+}
+
+.class-lookup-details {
+    display: block;
+    font-weight: 300;
+    text-overflow: ellipsis;
+    margin-bottom: .75rem;
+    padding-bottom: .75rem;
+    color: $black;
+    border-bottom: 1px solid;
+    border-bottom-color: #eeeeee;
+
+    &:last-child{
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        border-bottom: 0px;
+    }
+    &-half{
+        width: calc(50% - 5px);
+    }
+}
+
+.period-table {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.period-table input {
+    background-color: transparent;
+    text-align: center;
+}

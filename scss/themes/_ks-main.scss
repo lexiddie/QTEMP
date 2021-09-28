@@ -1,0 +1,31 @@
+/*------------------------------------
+    Main Theme
+------------------------------------*/
+
+.ks-sidebar--primary {
+    color: $white;
+    background-color: $primary;
+
+    &.has-bg {
+        &::before{
+            position: absolute;
+            left: -15px;
+            right: 0;
+            top: -15px;
+            bottom: -15px;
+            background: linear-gradient(360deg , rgba($primary, 0.15), rgba($primary, 0.45)), url(../img/sidebar-bg.jpg);
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-clip: border-box;
+            filter: blur(3px);
+            -webkit-filter: blur(3px);
+            -moz-filter: blur(3px);
+            -ms-filter: blur(3px);
+            -o-filter: blur(3px);
+            content: "";
+        }
+    }
+}

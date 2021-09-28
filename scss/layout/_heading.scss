@@ -1,0 +1,47 @@
+/*------------------------------------
+    Header
+------------------------------------*/
+
+%animate-fadeInDown {
+  transition: background-color 200ms linear;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+.main-header {
+  height: 50px;
+  width: 100%;
+  background-color: $white !important;
+  border-color: $black-smoke !important;
+  border-bottom: 0.5px solid;
+}
+
+.main-title {
+  display: flex;
+  flex-wrap: wrap;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 250px;
+  font-family: $primary-font-family !important;
+  font-size: 20px;
+  padding: 0px 15px 0px 15px;
+}
+
+.main-side {
+  display: flex;
+  flex-wrap: wrap;
+  float: right;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 250px;
+  font-family: $primary-font-family !important;
+  font-size: 20px;
+  padding: 0px 15px 0px 15px;
+}

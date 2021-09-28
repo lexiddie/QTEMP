@@ -1,0 +1,109 @@
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/fonts/segoe/segoeui.ttf');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('/fonts/firasans/firasans-regular.ttf');
+}
+
+/*------------------------------------
+    Typography rules
+------------------------------------*/
+
+h1 {
+  @include px-to-rem(font-size, 35px);
+}
+
+h2 {
+  @include px-to-rem(font-size, 24px);
+}
+
+h3 {
+  @include px-to-rem(font-size, 20px);
+}
+
+h4 {
+  @include px-to-rem(font-size, 15px);
+}
+
+h5 {
+  @include px-to-rem(font-size, 13px);
+}
+
+h6 {
+  @include px-to-rem(font-size, 12px);
+}
+
+.small,
+small {
+  color: lighten($black, 27%);
+  font-size: 65%;
+}
+
+.font-weight {
+  &-100 {
+    font-weight: 100 !important;
+  }
+
+  &-200 {
+    font-weight: 200 !important;
+  }
+
+  &-300 {
+    font-weight: 300 !important;
+  }
+
+  &-400 {
+    font-weight: 400 !important;
+  }
+
+  &-500 {
+    font-weight: 500 !important;
+  }
+
+  &-600 {
+    font-weight: 600 !important;
+  }
+
+  &-700 {
+    font-weight: 700 !important;
+  }
+
+  &-800 {
+    font-weight: 800 !important;
+  }
+}
+
+.text {
+  &-xxxl {
+    font-size: 330%;
+  }
+
+  &-xxl {
+    font-size: 225%;
+  }
+
+  &-caption {
+    display: block;
+    margin-bottom: 29px;
+    @include px-to-rem(font-size, 12px);
+  }
+}
+
+p {
+  margin: 0 0 12px;
+  letter-spacing: 0.1px;
+}
+
+.section-title h1,
+.section-title h2,
+.section-title h3,
+.section-title h4,
+.section-title h5,
+.section-title h6 {
+  margin-bottom: 0;
+  color: $primary;
+  font-weight: 600;
+}

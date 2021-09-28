@@ -1,0 +1,22 @@
+/*------------------------------------
+    Reset/normalize
+------------------------------------*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}

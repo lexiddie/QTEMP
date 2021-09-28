@@ -1,0 +1,67 @@
+.class-time-slot {
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+    top: 0;
+    color: $white;
+    background-color: $secondary;
+    border-radius: 10px;
+}
+
+@media(max-width: $g-lg) {
+    .class-time-slot {
+        font-size: inherit;
+    }
+}
+
+ul.filter-day-navtabs {
+    display: table;
+    table-layout: fixed;
+    border: 1px solid $primary;
+    padding: 0px;
+
+    li {
+        display: table-cell;
+        text-align: center;
+        color: $primary;
+        border-right: 1px solid $primary;
+        padding: 5px 10px;
+        text-transform: uppercase;
+
+        &.active {
+            color: $white;
+            font-weight: bold;
+            background-color: $primary;
+            border: 0px;
+        }
+
+        &:first-child {
+            border-radius: 10px 0px 0px 10px;
+        }
+
+        &:last-child {
+            border-right: 0px;
+            border-radius: 0px 10px 10px 0px;
+        }
+    }
+}
+
+.class-search {
+
+    .class-time-slot {
+        height: 25px;
+        top: 12px;
+    }
+
+    .schedule tbody tr th {
+        font-size: 13px;
+    }
+
+    .schedule tbody tr td {
+        height: 50px;
+        font-size: 13px;
+    }
+}
